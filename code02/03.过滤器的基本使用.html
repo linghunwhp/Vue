@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>03.过滤器的基本使用.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v4.0.0.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ msg | msgFormat('a+1') }}</p>
+    </div>
+    <script>
+        // 过滤器第一个参数是固定的，前面的字符串，但是第二个和之后的开业通过添加参数使用，也可以多个过滤器同时使用
+        Vue.filter('msgFormat', function(msg, arg) {
+            // 字符串的replace除了可以写字符串还可以使用正则表达式
+            return msg.replace(/单纯/g, arg)
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '单纯123单纯123单纯123'
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>04.生命周期函数演示.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v4.0.0.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="修改msg" @click="msg='No'">
+        <h3 id="h3">{{ msg }}</h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'ok'
+            },
+            methods: {
+                show() {
+                    console.log('已经执行show方法')
+                }
+            },
+            beforeCreate() {
+                //第一个生命周期函数，实例被完全创建出来之前，执行它
+                // console.log(this.msg)
+                // this.show()
+                // 注意：在beforecreate生命周期执行的时候，data和methods中的数据方法都还没有初始化
+            },
+            created() {
+                // 第二个生命周期函数，在created中，数据和方法都已经初始化好了，最早也就只能在这里操作
+                console.log(this.msg)
+                this.show()
+            },
+            beforeMount() {
+                // 第三个生命周期函数，模板已经在内存中编译完成了，尚未把模板渲染到页面中
+                console.log(document.getElementById('h3').innerText)
+            },
+            mounted() {
+                // 第四个生命周期函数，内存中的目标已经真实的挂载到页面中，用户可以看到渲染完成的页面了。
+                // mounted是实例创建过程中的最后一个生命周期函数
+                console.log(document.getElementById('h3').innerText)
+            },
+            beforeUpdate() {
+                // 运行阶段的第一个生命周期，可以被执行0-多次
+                // 数据被更新了，但是界面没有被更新，未同步
+                console.log('界面上的内容是：' + document.getElementById('h3').innerText)
+                console.log('data中的msg数据是' + this.msg)
+            },
+            updated() {
+                // 运行阶段的第二个生命周期
+                // 页面和data数据保持同步，均为最新
+                console.log('界面上的内容是：' + document.getElementById('h3').innerText)
+                console.log('data中的msg数据是' + this.msg)
+            },
+            beforeDestroy() {
+                // Vue实例进入销毁阶段，此时实例身上的所有data以及mehods都可用，还未真正执行销毁工作
+            },
+            destroyed() {
+                // 组建完全被销毁，所有数据、方法、指令过滤器等都不可用
+            },
+        })
+    </script>
+</body>
+
+</html>

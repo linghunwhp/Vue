@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>02.品牌列表案例2.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>Name:
+                    <!-- <input type="text" class="form-control" v-model="name" @keyup.enter="add"> -->
+                    <input type="text" class="form-control" v-model="name" @keyup.f2="add">
+                </label>
+                <!-- 处理点击事件，加小括号之后，就可以传参了 -->
+                <input type="button" value="添加" class="btn btn-primary" @click="add()">
+                <label>搜索关键字:
+                    <!-- <input type="text" class="form-control" v-model="keywords" id="search"> -->
+                    <!-- <input type="text" class="form-control" v-model="keywords" v-focus v-color> -->
+                    <input type="text" class="form-control" v-model="keywords" v-focus v-color="'blue'">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="item in list" :key="item.id"> -->
+                <!-- 之前直接用v-for从list中拿数据，渲染上去，现在自定义search方法，把所有关键字通过传参的方式传递给search方法 -->
+                <!-- 在search方法内部，通过for循环，把符合搜索关键字的数据，组成新数组返回 -->
+                <tr v-for="item in search(keywords)" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime | dateFormat('yyyy-mm-dd') }}</td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="app2">
+        <h3 v-color="'pink'" v-fontweight="900" v-fontsize="100">{{ dt | dateFormat() }}</h3>
+    </div>
+
+    <script>
+        // 全局过滤器，进行时间格式化
+        Vue.filter('dateFormat', function(dateStr, pattern = "") {
+            // 根据给定的字符串得到特定时间
+            var dt = new Date(dateStr)
+            var y = dt.getFullYear()
+            var m = dt.getMonth() + 1
+            var d = dt.getDate()
+
+            if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+                return `${y}-${m}-${d}` // 模板字符串 return y + '-' + m + '-' + d
+            } else {
+                var hh = dt.getHours()
+                var mm = dt.getMinutes()
+                var ss = dt.getSeconds()
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}` // 模板字符串 return y + '-' + m + '-' + d
+            }
+        })
+
+        //自定义按键修饰符
+        Vue.config.keyCodes.f2 = 113
+
+        //使用Vue.directive() 定义全局指令 v-focus
+        //其中参数1：指令名称，在定义的时候，指令名称前面不需要自己加v-，系统默认加，调用时必须加
+        // 参数2：是一个对象，在指令名前
+        // 末尾加s是局部函数，不加是全局函数
+        Vue.directive('focus', {
+            bind: function(el) { //每当指令绑定到元素上的时候，会立即执行bind函数，只执行1次
+                // 注意：在每个函数中，第一个参数永远是el，表示被绑定了指令的元素。el是一个原生JS对象，有一些原生JS的方法
+                // 在元素刚绑定指令的时候，并没有插入到DOM中，调用foucus方法无作用，一个元素插入DOM之后才能获取焦点
+                // el.focus()
+            },
+            inserted: function(el) { //inserted表示元素插入DOM时，会执行inserted，触发1次
+                el.focus()
+            },
+            updated: function(el) { //当VNode更新是时，执行updated，可能会执行多次
+
+            }
+        })
+
+        Vue.directive('color', {
+            bind: function(el, binding) {
+                // el.style.color = 'red'
+                el.style.color = binding.value
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [{
+                    id: 1,
+                    name: 'bm',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: 'bc',
+                    ctime: new Date()
+                }, {
+                    id: 3,
+                    name: 'QQ',
+                    ctime: new Date()
+                }]
+            },
+            methods: {
+                add() {
+                    // 1、获取id和name的值，直接在data中修改
+                    // 2、组织出一个对象
+                    // 3、调用数组的push方法，添加当前data数据到list中
+                    // 4、双向绑定，修改了data中的数据，vue会自动把最新数据应用到页面中
+                    var car = {
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    }
+                    this.list.push(car)
+                        // 添加完后清空数据
+                    this.id = this.name = ''
+                },
+                // 根据id删除数据
+                del(id) {
+                    // 两种方式找到索引并删除
+                    // 根据id找到要删除的索引
+                    // 找到索引，调用数组的splice方法
+                    // this.list.some((item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1)
+                    //             // 找到后立即终止循环
+                    //         return true;
+                    //     }
+                    // })
+
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true;
+                        }
+                    })
+                    this.list.splice(index, 1)
+                },
+                search(keywords) {
+                    // 注意：forEach，some，findIndex，filter是数组的方法
+                    // var newList = []
+                    // this.list.forEach(item => {
+                    //     if (item.name.indexOf(keywords) != -1) {
+                    //         newList.push(item)
+                    //     }
+                    // })
+                    // return newList
+
+                    // ES6中，为字符串提供了一个新方法，String.prototype.includes('要包含的字符串')，如果包含返回true，否则返回false
+                    // 通过filter和includes结合实现
+                    return this.list.filter(item => {
+                        if (item.name.includes(keywords)) {
+                            return item
+                        }
+                    })
+                }
+            }
+        })
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                dt: new Date()
+            },
+            methods: {
+
+            },
+            filters: {
+                //定义私有过滤器，两个条件：过滤器名称：处理函数
+                // toString.padStart(2, '0')是string.properties的一个函数，（填充为最大几位，用什么填充）
+                dateFormat: function(dateStr, pattern = '') {
+                    // 根据给定的字符串得到特定时间
+                    var dt = new Date(dateStr)
+                    var y = dt.getFullYear()
+                    var m = (dt.getMonth() + 1) //.toString.padStart(2, '0')
+                    var d = dt.getDate() //.toString.padStart(2, '0')
+
+                    if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+                        return `${y}-${m}-${d}` // 模板字符串 return y + '-' + m + '-' + d
+                    } else {
+                        var hh = dt.getHours() //.toString.padStart(2, '0')
+                        var mm = dt.getMinutes() //.toString.padStart(2, '0')
+                        var ss = dt.getSeconds() //.toString.padStart(2, '0')
+                        return `${y}-${m}-${d} ${hh}:${mm}:${ss}` // 模板字符串 return y + '-' + m + '-' + d
+                    }
+                }
+            },
+            directives: {
+                'fontweight': { //设置字体粗细
+                    bind: function(el, binding) {
+                        el.style.fontWeight = binding.value
+                    }
+                },
+                'fontsize': function(el, binding) {
+                    el.style.fontSize = parseInt(binding.value) + 'px'
+                }
+            }
+        })
+
+        // //原生方法获取焦点，vue不推荐这样写
+        // document.getElementById('search').focus()
+    </script>
+</body>
+
+</html>
