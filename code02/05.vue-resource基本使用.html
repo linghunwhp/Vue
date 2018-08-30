@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>05.vue-resource基本使用.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v4.0.0.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <!-- vue-resource依赖于vue，所以先后顺序要注意 -->
+    <script src="./lib/vue-resource-v1.5.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="get请求" @click="getInfo">
+        <input type="button" value="post请求" @click="postInfo">
+        <input type="button" value="jsonp请求" @click="jsonpInfo">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {
+                getInfo() {
+                    this.$http.get('http://211.149.193.19:8080/api/customers').then(function(result) {
+                        console.log(result)
+                    })
+                },
+                // getInfo() {
+                //     this.$http.get('http://211.149.193.19:8080/api/customers').then(response => {
+                //             console.log('请求成功' + response)
+                //         },
+                //         response => {
+                //             console.log('请求失败')
+                //         });
+                // },
+                // 默认只接受表单格式的数据，application/x-wwww-form-urlencoded
+                // emulateJSON:true 设置简单表单格式的数据
+                postInfo() {
+                    this.$http.post('http://211.149.193.19:8080/api/customers', {}, {
+                        emulateJSON: true
+                    }).then(result => {
+                        console.log(result.body)
+                    })
+                },
+                jsonpInfo() {
+                    this.$http.jsonp('http://211.149.193.19:8080/api/customers').then(result => {
+                        console.log(result.body)
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
