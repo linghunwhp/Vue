@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>03.名称案例.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-router-v3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 分析： -->
+        <!-- 1、监听文本框数据的变化，检测什么时候拼接出新的fullname -->
+        <!-- 2、使用keyup监听文本框数据改变 -->
+        <input type="text" v-model="firstname" @keyup="getFullName">
+        <input type="text" v-model="lastname" @keyup="getFullName">=
+        <input type="text" v-model="fullname">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                firstname: '',
+                lastname: '',
+                fullname: ''
+            },
+            methods: {
+                getFullName() {
+                    this.fullname = this.firstname + '-' + this.lastname
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

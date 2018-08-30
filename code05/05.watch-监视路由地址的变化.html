@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>05.watch-监视路由地址的变化.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-router-v3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        var login = {
+            template: '<h1>登录</h1>'
+        }
+        var register = {
+            template: '<h1>注册</h1>'
+        }
+
+        var routerObj = new VueRouter({
+            routes: [{
+                path: '/',
+                redirect: '/login'
+            }, {
+                path: '/login',
+                component: login
+            }, {
+                path: '/register',
+                component: register
+            }]
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {},
+            router: routerObj,
+            watch: {
+                // 使用watch监视路由地址的变化
+                '$route.path': function(newVal, oldVal) {
+                    console.log(newVal + '---' + oldVal)
+                    if (newVal == '/login') {
+                        console.log('欢迎进入登录页面')
+                    } else if (newVal == '/register') {
+                        console.log('欢迎进入注册页面')
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
