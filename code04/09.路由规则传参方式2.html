@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>09.路由规则传参方式2.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-router-v3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/login/12">login</router-link>
+        <router-link to="/register">register</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        var login = {
+            template: '<h3>这是login--{{msg}}</h3>',
+            data() {
+                return {
+                    msg: this.$route.params.id
+                }
+            },
+            created() {
+                console.log(this.$route.params.id)
+            },
+        }
+
+        var register = {
+            template: '<h3>这是register</h3>'
+        }
+
+        var routerObj = new VueRouter({
+            routes: [{
+                // 这里的id现在是占位符，以后匹配传递进来的地址id
+                path: '/login/:id',
+                component: login
+            }, {
+                path: '/register',
+                component: register
+            }]
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {},
+            router: routerObj
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>10.路由-路由嵌套.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-router-v3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/account">Account</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="tmp1">
+        <div>
+            <h1>这是Account组件</h1>
+            <router-link to="/account/login">登录</router-link>
+            <router-link to="/account/register">注册</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+    <script>
+        var account = {
+            template: '#tmp1'
+        }
+
+        var login = {
+            template: '<h3>登录</h3>'
+        }
+
+        var register = {
+            template: '<h3>注册</h3>'
+        }
+
+        var routerObj = new VueRouter({
+            routes: [{
+                path: '/account',
+                component: account,
+                // 使用children实现之路由，子路由前面不加/，否则默认从根路径进入，不易理解
+                children: [{
+                    path: 'login',
+                    component: login
+                }, {
+                    path: 'register',
+                    component: register
+                }]
+            }]
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {},
+            router: routerObj
+        })
+    </script>
+</body>
+
+</html>
