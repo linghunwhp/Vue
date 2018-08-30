@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>01.vue-resource改造品牌列表案例</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-resource-v1.5.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Name:
+                    <input type="text" v-model="name" class="form-control">
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+            </div>
+        </div>
+
+
+
+        <table class="table table-border table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item,ctime }}</td>
+                    <td href="" @click.prevent="del(item.id)">delete</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+        // 通过全局配置了数据接口的根域名，每次发起的URL路径，不能再添加/,否则无效
+        Vue.http.opthions.root = '';
+        // 全局启用emulateJSON
+        Vue.http.opthions.emulateJSON = true;
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                list: [{ // 存放所有品牌数组的列表
+                    id: 1,
+                    name: '五菱宏光',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: '众泰',
+                    ctime: new Date()
+                }]
+            },
+            created() {
+                // 当vm实例的data和methods初始化完毕后，vm实例会自动执行created这个生命周期函数
+                this.getAllList()
+
+            },
+            methods: {
+                getAllList() {
+                    // 获取所有的品牌列表
+                    // 分析：
+                    // 1、导入vue-resource包，直接通过this.http发起数据请求(发阿贾克斯尽量提前发，防止等待数据，在created阶段比较合适)
+                    // 2、根据接口API文档，的值获取列表应该发起一个get请求
+                    // 3、this.$http.get('url').then(function(result){})
+                    // 4、当通过then指定回调函数之后，再回调函数中，可以拿到数据服务器返回的result
+                    // 5、先判断result.status是否等于0，0代表成功，把result.message赋值给this.list；如果不等于0，弹框提醒，获取数据失败
+
+                    this.$http.get('').then(result => {
+                        var result = result.body
+                        if (result.status === 0) {
+                            //success
+                            this.list = result.message
+                        } else {
+                            alert("failed")
+                        }
+                    })
+                },
+                add() {
+                    // 添加品牌列表到后台服务器
+                    // 分析：
+                    // 1、经过查看数据API接口，得知要发送Post请求，this.$http.post
+                    // 2、this.$http.post()中接收三个参数：
+                    //   2.1 第一个参数：请求URL地址
+                    //   2.2 第二个参数：将提交给服务器的数据，以对象的形式提交给服务器{name: this.name}
+                    //   2.3 第三个参数：一个配置对象，要以哪种表单数据类型提交过去{emulateJSON: true}
+                    //                  以普通表单格式，将数据提交给服务器 application/x-www-form-urlencoded
+                    // 3、在post方法中，使用 .then 来设置成功的回调函数，如果想要拿到成功的结果，需要result.body
+
+                    this.$http.post('', {
+                        name: this.name
+                    }).then(result => {
+                        if (result.body.status === 0) {
+                            // success
+                            // 添加成功后，只需要再重新调用一次getAllList
+                            this.getAllList()
+                            this.name = ''
+                        } else {
+                            alert("failed")
+                        }
+                    })
+                },
+                del(id) {
+                    this.$http.get('' + id).then(result => {
+                        if (result.body.status === 0) {
+                            //success
+                            this.getAllList()
+                        } else {
+                            alert("failed")
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

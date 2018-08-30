@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>12.组件-为什么组件必须有function.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <counter></counter>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <input type="button" value="+1" @click="increment">
+            <h3>{{ count }}</h3>
+        </div>
+    </template>
+    <script>
+        var dataObj = {
+                count: 0
+            }
+            // 计数器组件，点击按键data中的数据+1
+        Vue.component('counter', {
+            template: '#tmp1',
+            data: function() {
+                // return dataObj
+                // 定义成上面的形式，会导致相互影响，需要用function和return的形式，单独返回
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                increment() {
+                    this.count++
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

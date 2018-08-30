@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>10.组件-创建组件的方式三.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <mycom3></mycom3>
+    </div>
+
+    <div id="app2">
+        <mycom3></mycom3>
+        <login></login>
+    </div>
+    <template id="tmp1">
+        <h1>这是通过template元素，在外部定义的组件结构，有代码的提示和高亮</h1>            
+    </template>
+
+    <template id="tmp2">
+        <h1>app2内部的私有组件</h1>            
+    </template>
+    <script>
+        Vue.component('mycom3', {
+            // 第三种方式是把template抽出来，单独放置，这样有智能提示和高亮，代码比较好写
+            template: '#tmp1'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {}
+        })
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {},
+            filters: {},
+            directives: {},
+            // components是定义实例内私有组件的
+            components: {
+                login: {
+                    template: '#tmp2'
+                }
+            },
+
+            beforeCreate() {
+
+            },
+            created() {
+
+            },
+            beforeMount() {
+
+            },
+            mounted() {
+
+            },
+            beforeUpdate() {
+
+            },
+            updated() {
+
+            },
+            beforeDestroy() {
+
+            },
+            destroyed() {
+
+            },
+        })
+    </script>
+</body>
+
+</html>
