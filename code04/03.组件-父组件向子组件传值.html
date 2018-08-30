@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>03.组件-父组件向子组件传值.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 父组件可以在应用子组件的时候，通过属性绑定（v-bind）的形式，把需要传递的数据给子组件 -->
+        <com1 :parentmsg="msg"></com1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '123-父组件中的数据'
+            },
+            methods: {},
+            components: {
+                // 子组件无法默认访问到父组件中的data数据和method方法
+                com1: {
+                    // data是子组件中石油的数据，不是从父组件中传递过来的，如：子组件通过Ajax,请求回来的数据，都可以放到data上
+                    data() {
+                        return {
+                            title: '123',
+                            content: 'xxx'
+                        }
+                    },
+                    template: '<h1>子组件{{ parentmsg }}</h1>',
+                    // 把父组件传递过来的在props中定义一下，才能使用
+                    // props中只是只读的，data中数据是可读可写的
+                    props: ['parentmsg'],
+                    directives: {},
+                    filters: {},
+                    components: {},
+                    methods: {}
+                },
+
+            }
+        })
+    </script>
+</body>
+
+</html>

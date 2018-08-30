@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>06.ref获取DOM元素和组件.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="获取元素" @click="getElement">
+        <h3 ref="myh3">天气好晴朗</h3>
+
+        <login ref="mylogin"></login>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <h1>mylogin 中的 H1</h1>
+        </div>
+    </template>
+
+    <script>
+        var login = {
+            template: "#tmp1",
+            data() {
+                return {
+                    msg: 'son msg'
+                }
+            },
+            methods: {
+                show() {
+                    console.log('调用子组件方法')
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {
+                getElement() {
+                    // console.log(document.getElementById('myh3').innerText) //不推荐直接操作DOM元素
+                    // ref是reference缩写，使用ref获取DOM节点
+                    console.log(this.$refs.myh3.innerText)
+                    console.log(this.$refs.mylogin.msg)
+                    this.$refs.mylogin.show()
+                }
+            },
+            components: {
+                login
+            }
+        })
+    </script>
+</body>
+
+</html>

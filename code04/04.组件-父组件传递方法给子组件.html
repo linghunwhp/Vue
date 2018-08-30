@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>04.组件-父组件传递方法给子组件.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 父组件向子组件传递方法，使用时间绑定机制，v-on是我们自定义一个事件属性之后，子组件具有使用父组件的方法 -->
+        <com2 v-on:func="show"></com2>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <h1>这是子组件</h1>
+            <input type="button" value="子组件的按钮，点击触发父组件传递的func方法" @click="myclick">
+        </div>
+    </template>
+
+    <script>
+        // 定义了一个字变量类型的组件模板对象
+        var com2 = {
+            template: '#tmp1',
+            data() {
+                return {
+                    sonmsg: {
+                        name: 'xxx',
+                        age: '15'
+                    }
+                }
+            },
+            methods: {
+                myclick() {
+                    // 点击子组件按钮之后，怎么拿到从父组件传递过来的func方法，并进行调用？
+                    // 通过emit()这个函数，并且可以传递参数，从第二个参数之后都可以传递参数
+                    // this.$emit('func', 123, 456)
+                    this.$emit('func', this.sonmsg)
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {
+                show(data1) {
+                    // console.log("调用了父组件中的show方法 ---- " + data + data2)
+                    this.msg = data1
+                }
+            },
+            components: {
+                com2
+            }
+        })
+    </script>
+</body>
+
+</html>
