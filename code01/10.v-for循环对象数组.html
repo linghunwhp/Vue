@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>10.v-for循环对象数组.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- user相当于list1中每个遍历的对象，i是下标 -->
+        <p v-for="(user, i) in list1">ID:{{ user.id }}----Name:{{ user.name }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                list1: [{
+                    id: 1,
+                    name: 'z1'
+                }, {
+                    id: 2,
+                    name: 'z2'
+                }, {
+                    id: 3,
+                    name: 'z3'
+                }, {
+                    id: 4,
+                    name: 'z4'
+                }]
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

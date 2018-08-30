@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="n1">
+
+        <select v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+
+        <input type="text" v-model="n2">
+        <input type="button" value="=" @click="calculate">
+        <input type="text" v-model="result">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                n1: 0,
+                n2: 0,
+                result: 0,
+                opt: '+'
+            },
+            methods: {
+                calculate() { //逻辑
+                    switch (this.opt) {
+                        case '+':
+                            this.result = parseInt(this.n1) + parseInt(this.n2)
+                            break;
+                        case '-':
+                            this.result = parseInt(this.n1) - parseInt(this.n2)
+                            break;
+                        case '*':
+                            this.result = parseInt(this.n1) * parseInt(this.n2)
+                            break;
+                        case '/':
+                            this.result = parseInt(this.n1) / parseInt(this.n2)
+                            break;
+                        default:
+                            break;
+                    }
+                    // 方式二：不推荐
+                    var codeStr = 'parseInt(this.n1)' + this.opt + 'parseInt(this.n2)'
+                    this.result = eval(codeStr)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

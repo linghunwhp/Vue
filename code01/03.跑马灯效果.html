@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>跑马灯</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="浪起来" @click="lang">
+        <input type="button" value="低调" @click="stop">
+        <h4>{{ msg }}</h4>
+    </div>
+
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '猥琐发育，别浪～～！',
+                intervalId: null
+            },
+            methods: {
+                lang() {
+                    if(this.intervalId != null){
+                        return
+                    }
+                    this.intervalId = setInterval(() => {
+                        //这里的=>代表内外this.一致
+                        //vm实例中，如果想获取data上的数据，或者调用methods中的方法，通过this.方法调用
+                        //获取头字符
+                        var start = this.msg.substring(0, 1)
+                        //获取除了头之外的所有字符
+                        var end = this.msg.substring(1)
+                        this.msg = end + start
+
+                        //vm实例，会监听自己身上的data，数据发生变化时，会自动把最新数据同步到页面中
+                    }, 400)
+                },
+                stop(){
+                    clearInterval(this.intervalId)
+                    //清除之后把ID重新赋值成null
+                    this.intervalId = null
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>v-cloak</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<style>
+    [v-cloak]{
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="content">
+        <!--使用v-cloak，插值表达式闪烁问题，加载时隐藏-->
+        <p v-cloak>{{ msg }}</p>
+
+        <!--v-text默认没有闪烁问题，但会覆盖h之间的内容-->
+        <h4 v-text="msg"></h4>
+        
+        <!--上面两种都不能解析html，v-html可以-->
+        <div v-html="msg2"></div>
+
+        <!--v-bind：Vue中提供的用于绑定属性的指令(v-bind： 等同于：)-->
+        <input type="button" value="按钮" v-bind:title="mytitle + '123'">
+        <input type="button" value="按钮" :title="mytitle + '123'">
+
+        <!-- Vue 中绑定事件v-on -->
+        <input type="button" value="按钮" v-on:click="show">
+        <input type="button" value="按钮" v-on:mouseover="show">
+
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:'#content',
+            data: {
+                msg: '学习v-cloak',
+                msg2: '<h1>我是H1</h1>',
+                mytitle: '自定义的title'
+            },
+            methods: {//methods中定义了当前Vue实例可以用的方法
+                show: function(){
+                    alert('Hello');
+                }
+            }
+        })
+
+    </script>
+
+    
+</body>
+</html>

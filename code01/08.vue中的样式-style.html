@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 对象就是无序键值对的集合， -->
+        <!-- 1、如果属性带一个-，必须加单引号 -->
+        <!-- 2、:style，使用内联属性一定要加： -->
+        <h1 :style="{ color:'red', 'font-weight': 200}">我是H1</h1>
+        <h1 :style="styleObj">我是H1</h1>
+        <h1 :style="[styleObj, styleObj2]">我是H1</h1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                styleObj: {
+                    color: 'red',
+                    'font-weight': 200
+                },
+                styleObj2: {
+                    'font-style': 'italic'
+                }
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>14.v-if和v-show的使用.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1、第一种方式，使用click函数 -->
+        <input type="button" value="toggle" @click="toggle">
+        <!-- 2、不新建函数，直接使用变量赋值 -->
+        <input type="button" value="toggle" @click="flag=!flag">
+
+        <!-- v-if:每次都会删除或者创建元素，有较高的切换性能消耗，如果涉及频繁切换，最好不要使用v-if -->
+        <!-- v-show：每次不会重新进行DOM的删除和创建操作，只是切换了元素的display:none样式，有较高的初始渲染消耗，如果元素可能不会被显示，最好不使用v-show -->
+        <h3 v-if="flag">使用v-if控制的元素</h3>
+        <h3 v-show="flag">使用v-show控制的元素</h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                flag: true
+            },
+            methods: {
+                toggle() {
+                    this.flag = !this.flag
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
