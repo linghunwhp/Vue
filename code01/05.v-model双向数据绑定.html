@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>v-mode双向数据绑定</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h4>{{ msg }}</h4>
+
+        <!-- v-bind只能实现单向绑定，从M-V -->
+        <input type="text" :value="msg" style=" width:100%;">
+
+        <!-- v-model实现双向数据绑定 -->
+        <!-- v-model只能运用在表单元素中 -->
+        <!-- input(radio, text, address, email....) select checkbox textarea -->
+        <input type="text" :value="msg" style=" width:100%;" v-model="msg">
+
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '天若有情天亦老，人间正道是沧桑'
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

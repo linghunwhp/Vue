@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>11.v-for循环对象.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-for='(val, key, i) in user'>值：{{ val }}----键：{{ key }}----索引：{{ i }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                user: {
+                    id: 1,
+                    name: '托马斯',
+                    gender: '男'
+                }
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

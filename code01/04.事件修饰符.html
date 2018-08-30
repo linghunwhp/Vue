@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <style>
+        .inner {
+            height: 150px;
+            background-color: darkcyan;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="inner" @click="divHandler">
+            <!-- divHandler和btnHanler这两个事件，由于input被div包裹，所以会导致冒泡触发，从内向外，先触发btn的事件，可以使用stop阻止 -->
+            <input type="button" value="戳戳戳" @click.stop="btnHandler">
+        </div>
+
+        <!-- 使用.prevent阻止默认行为 -->
+        <a href="http://wwww.baidu.com" @click.prevent="linkClick"> 百度 </a>
+
+        <!-- .capture方法会从外到内执行事件 -->
+        <div class="inner" @click.capture="divHandler">
+            <input type="button" value="戳戳戳" @click="btnHandler">
+        </div>
+
+        <!-- .self方法，只有点击当前元素的时候才会触发，阻止当前元素冒泡，而.stop会阻止所有的冒泡行为 -->
+        <div class="inner" @click.self="divHandler">
+            <input type="button" value="戳戳戳" @click="btnHandler">
+        </div>
+
+        <!-- 使用.once只触发一次该函数 -->
+        <a href="http://wwww.baidu.com" @click.prevent.once="linkClick"> 百度 </a>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {
+                divHandler() {
+                    console.log("divHandler")
+                },
+                btnHandler() {
+                    console.log("btnHandler")
+                },
+                linkClick() {
+                    console.log("百度")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
