@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>09.组件-创建组件的方式二.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <mycom2></mycom2>
+    </div>
+    <script>
+        Vue.component('mycom2', {
+            // 无论是哪种方式创建出来的组件，组件的template属性指向的模板内容，只能有一个根元素
+            template: '<h3>这是直接使用Vue.component创建出来的组件</h3>'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

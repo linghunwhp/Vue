@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>11.组件-组件中的data和methods.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <mycom1></mycom1>
+    </div>
+    <script>
+        // 1、组件中可以有data数据
+        // 2、组件中的data和实例data不一样，实例中的data可以为一个对象，但是组件中的data必须是一个方法
+        // 3、组件中的data除了必须为一个方法之外，方法内部还必须返回一个对象
+        // 4、使用方法和实例中的data一模一样
+        Vue.component('mycom1', {
+            template: '<h3>全局组件----{{ msg }}</h3>',
+            data: function() {
+                return {
+                    msg: '这是组件中的data定义的数据'
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

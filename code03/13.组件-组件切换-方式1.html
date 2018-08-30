@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>13.组件-组件切换-方式1.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <a href="" @click.prevent="flag=true">登录</a>
+        <a href="" @click.prevent="flag=false">注册</a>
+
+        <login v-if="flag"></login>
+        <register v-else="flag"></register>
+    </div>
+    <script>
+        Vue.component('login', {
+            template: '<h3>登录组件</h3>'
+        })
+        Vue.component('register', {
+            template: '<h3>注册组件</h3>'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

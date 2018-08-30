@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>05.动画-使用第三方类animate.css实现动画</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <link rel="stylesheet" href=".//lib/animate.css">
+    <script src="./lib/vue-2.5.16.js"></script>
+
+    <!-- 入场：bounceIn   离场：bounceOut -->
+
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <!-- 需求：点击让H3显示，在点击，让H3隐藏 -->
+
+        <!-- 使用duration统一设置入场离场动画时长 -->
+        <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" :duration="200">
+            <!-- 上面的animated也可以直接写到元素上面 -->
+            <!-- <h3 v-if="flag" class="animated">这是一个H3</h3> -->
+            <h3 v-if="flag">这是一个H3</h3>
+        </transition>
+
+        <input type="button" value="toggle2" @click="flag2=!flag2">
+        <!-- 使用 :duration="{enter:200, leave:400}"分别设置入场和离场时长 -->
+        <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" :duration="{enter:200, leave:400}">
+            <!-- 上面的animated也可以直接写到元素上面 -->
+            <!-- <h3 v-if="flag" class="animated">这是一个H3</h3> -->
+            <h3 v-if="flag2">这是一个H3</h3>
+        </transition>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                flag2: true
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

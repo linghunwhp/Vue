@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>15.组件-组件切换应用切换动画和mode方式.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <style>
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+        
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <a href="" @click.prevent="comName='login'">登录</a>
+        <a href="" @click.prevent="comName='register'">注册</a>
+
+        <!-- 通过mode，定义切换时的模式 -->
+        <transition mode="out-in">
+            <!-- vue提供了component元素，来展示对应名称的组件 -->
+            <!-- component是一个占位符，:is属性，可以用来指定要展示的组件的名称 -->
+            <component :is="comName"></component>
+        </transition>
+
+        <!-- vue提供的几个标签 -->
+        <!-- component, template, transition, transitionGroup -->
+    </div>
+    <script>
+        Vue.component('login', {
+            template: '<h3>登录组件</h3>'
+        })
+        Vue.component('register', {
+            template: '<h3>注册组件</h3>'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                comName: 'login',
+                flag: true,
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>08.组件-创建组件的方式一.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 如果使用组件，直接把组件的名称以Html的形式，引入到页面中即可 -->
+        <!-- 如果采用驼峰命名法，在调用的时候需要把后面的字母小写，前后通过-连接 -->
+        <my-com1></my-com1>
+    </div>
+    <script>
+        // // 1.1使用Vue.extend来创建全局的Vue组件
+        // var com1 = Vue.extend({
+        //         // 通过template属性，指定了组件要展示的Html结构
+        //         template: '<h3>这是使用Vue.extend创建的组件<h3>'
+        //     })
+        //     // 1.2使用Vue.component('组件的名称',创建出来的组件模板对象)
+        //     // 如果组件名称不使用驼峰命名法，直接引用就可以
+        // Vue.component('myCom1', com1)
+
+        // 可以合二为一，去掉中间过程
+        Vue.component('myCom1', Vue.extend({
+            template: '<h3>这是使用Vue.extend创建的组件</h3>'
+        }))
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

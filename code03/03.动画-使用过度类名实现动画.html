@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>03.动画-使用过度类名实现动画</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+
+    <style>
+        /* v-enter [这是一个时间点] 是进入之前，元素的起始状态，此时还没有开始进入 */
+        /* v-leave-to [这是一个时间点] 动画离开之后，离开的终止状态，元素动画已经结束*/
+        
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+        /* v-enter-active [入场动画的时间段] */
+        /* v-leave-active [离场动画的时间段] */
+        
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.8s ease;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <!-- 需求：点击让H3显示，在点击，让H3隐藏 -->
+        <!-- 1、使用transition元素，把需要被控制的元素包裹起来，是Vue官方提供的 -->
+        <transition>
+            <h3 v-if="flag">这是一个H3</h3>
+        </transition>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
