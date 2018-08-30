@@ -1,0 +1,17 @@
+html,
+body {
+    .box {
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack无法处理css文件中的url地址，图片地址还是文字地址都处理不了
+        background: url('../images/MVC.png');
+        background-size: cover;
+    }
+    .box2 {
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack无法处理css文件中的url地址，图片地址还是文字地址都处理不了
+        background: url('../images2/MVC.png');
+        background-size: cover;
+    }
+}
