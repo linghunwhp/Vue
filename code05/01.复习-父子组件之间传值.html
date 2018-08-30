@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>01.复习-父子组件之间传值.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-v3.3.7.css" />
+    <script src="./lib/vue-2.5.16.js"></script>
+    <script src="./lib/vue-router-v3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <com1 v-bind:parmsg="msg" @func="getMsgFromSon"></com1>
+    </div>
+    <template id="tmp1">
+        <div>
+            <h1>子元素---{{parmsg}}</h1>
+            <input type="button" value="向父组件传值" @click="sendMsg">
+        </div>        
+    </template>
+    <script>
+        var com1 = {
+            template: "#tmp1",
+            props: ['parmsg'],
+            data() {
+                return {
+                    msg: '子组件给父组件传值'
+                }
+            },
+            methods: {
+                sendMsg() {
+                    this.$emit('func', this.msg)
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '这是父组件',
+                msgFromSon: ''
+            },
+            methods: {
+                getMsgFromSon(data) {
+                    this.msgFromSon = data
+                    console.log(this.msgFromSon)
+                }
+            },
+            components: {
+                com1
+            }
+        })
+    </script>
+</body>
+
+</html>
